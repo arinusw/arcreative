@@ -1,7 +1,34 @@
 /* =============================================
    BLOG PAGE JAVASCRIPT
    ============================================= */
+// ============ HANDLE MOBILE RESIZE ============
+function handleMobileResize() {
+  const vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty("--vh", `${vh}px`);
 
+  // Fix untuk elemen yang mungkin overflow
+  const containers = document.querySelectorAll(".container");
+  containers.forEach((container) => {
+    if (container.scrollWidth > window.innerWidth) {
+      container.style.overflow = "hidden";
+    }
+  });
+}
+
+window.addEventListener("resize", handleMobileResize);
+window.addEventListener("orientationchange", handleMobileResize);
+handleMobileResize();
+
+// ============ FIX TOUCH SCROLL ============
+document.addEventListener(
+  "touchmove",
+  function (e) {
+    if (e.target.closest(".modal-content")) {
+      e.stopPropagation();
+    }
+  },
+  { passive: false },
+);
 // ============ BLOG ARTICLES DATA ============
 const blogArticles = [
   // TUTORIAL DESIGN
