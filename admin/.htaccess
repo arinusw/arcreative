@@ -1,0 +1,41 @@
+# Admin Panel Security & Configuration
+# Disable directory listing
+Options -Indexes
+
+# Set DirectoryIndex to redirect automatically
+DirectoryIndex index.php
+
+# Prevent direct access to sensitive files
+<FilesMatch "\.(config|sql|template)\.php$">
+    Deny from all
+</FilesMatch>
+
+# Require login for all files
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Block direct access to config files
+    RewriteRule ^config\.php$ - [F,L]
+    RewriteRule ^config\.template\.php$ - [F,L]
+    
+    # Redirect all folder access to index.php for authentication check
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php [L,QSA]
+</IfModule>
+
+# Set proper MIME types
+AddType application/json .json
+AddType text/html .php
+
+# Security headers
+<IfModule mod_headers.c>
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# Disable PHP execution in upload directories (if applicable)
+<IfModule mod_php.php>
+    php_flag engine off
+</IfModule>

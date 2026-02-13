@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog - Ar Creative | Tips, Trik & Tutorial Digital</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css?v=2024" />
+    <link rel="stylesheet" href="css/blog.css?v=2024" />
+  </head>
+
+  <body>
+    <!-- ============================================
+       HEADER / NAVIGATION
+       ============================================ -->
+    <header class="navbar">
+      <div class="container">
+        <div class="navbar-brand">
+          <a href="index.html" class="logo">Ar Creative</a>
+        </div>
+
+        <nav class="navbar-menu">
+          <ul class="menu-list">
+            <li><a href="index.html#home">Home</a></li>
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#resume">Resume</a></li>
+            <li><a href="index.html#portfolio">Portfolio</a></li>
+            <li><a href="index.html#services">Services</a></li>
+            <li><a href="blog.html" class="active">Blog</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+          </ul>
+        </nav>
+
+        <button class="navbar-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- ============================================
+       BLOG HERO SECTION
+       ============================================ -->
+    <section class="blog-hero">
+      <div class="container">
+        <div class="blog-hero-content">
+          <h1 class="blog-hero-title">
+            Tips, Trik & <span class="text-orange">Tutorial</span> Digital
+          </h1>
+          <p class="blog-hero-description">
+            Belajar tentang desain grafis, web development, teknologi terkini,
+            dan tips IT support untuk meningkatkan kemampuan digital Anda
+          </p>
+
+          <!-- Search Bar -->
+          <div class="blog-search">
+            <input
+              type="text"
+              id="searchBlog"
+              placeholder="Cari artikel..."
+              class="search-input"
+            />
+            <button class="search-btn">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+       BLOG CONTENT SECTION
+       ============================================ -->
+    <section class="blog-section">
+      <div class="container blog-container">
+        <!-- Sidebar Kategori -->
+        <aside class="blog-sidebar">
+          <div class="sidebar-widget">
+            <h3 class="sidebar-title"><i class="fas fa-list"></i> Kategori</h3>
+            <ul class="category-list">
+              <li>
+                <a href="#" class="category-link active" data-category="all">
+                  <span>Semua Artikel</span>
+                  <span class="category-count">45</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="category-link"
+                  data-category="tutorial-design"
+                >
+                  <span>Tutorial Design</span>
+                  <span class="category-count">12</span>
+                </a>
+              </li>
+              <li>
+                <a href="#" class="category-link" data-category="tutorial-web">
+                  <span>Tutorial Web Dev</span>
+                  <span class="category-count">10</span>
+                </a>
+              </li>
+              <li>
+                <a href="#" class="category-link" data-category="tutorial-ms">
+                  <span>Tutorial Microsoft</span>
+                  <span class="category-count">8</span>
+                </a>
+              </li>
+              <li>
+                <a href="#" class="category-link" data-category="edukasi">
+                  <span>Edukasi Digitalisasi</span>
+                  <span class="category-count">7</span>
+                </a>
+              </li>
+              <li>
+                <a href="#" class="category-link" data-category="teknologi">
+                  <span>Update Teknologi</span>
+                  <span class="category-count">9</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="category-link"
+                  data-category="tutorial-komputer"
+                >
+                  <span>Tutorial Instalasi Komputer</span>
+                  <span class="category-count">5</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="category-link"
+                  data-category="tutorial-teknis"
+                >
+                  <span>Tutorial Teknisi Komputer</span>
+                  <span class="category-count">6</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="category-link"
+                  data-category="management-konten"
+                >
+                  <span>Management Konten</span>
+                  <span class="category-count">8</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Popular Articles -->
+          <div class="sidebar-widget">
+            <h3 class="sidebar-title"><i class="fas fa-fire"></i> Populer</h3>
+            <div class="popular-articles">
+              <div class="popular-item">
+                <h4>
+                  <a href="#"
+                    >Panduan Lengkap Memulai Desain Grafis untuk Pemula</a
+                  >
+                </h4>
+                <p class="popular-date">
+                  <i class="fas fa-calendar"></i> 5 Feb 2026
+                </p>
+              </div>
+              <div class="popular-item">
+                <h4>
+                  <a href="#"
+                    >6 Tips Membuat Website yang SEO Friendly dan Cepat</a
+                  >
+                </h4>
+                <p class="popular-date">
+                  <i class="fas fa-calendar"></i> 3 Feb 2026
+                </p>
+              </div>
+              <div class="popular-item">
+                <h4>
+                  <a href="#"
+                    >Troubleshooting Komputer: Solusi Error Umum dan Cepat</a
+                  >
+                </h4>
+                <p class="popular-date">
+                  <i class="fas fa-calendar"></i> 1 Feb 2026
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Newsletter Subscribe -->
+          <div class="sidebar-widget">
+            <h3 class="sidebar-title">
+              <i class="fas fa-envelope"></i> Newsletter
+            </h3>
+            <p
+              style="
+                color: var(--text-lighter);
+                font-size: 14px;
+                margin-bottom: 1rem;
+              "
+            >
+              Dapatkan update artikel terbaru langsung ke email Anda
+            </p>
+            <form class="newsletter-form" id="newsletterForm">
+              <input
+                type="email"
+                placeholder="Email Anda"
+                required
+                style="
+                  width: 100%;
+                  padding: 10px;
+                  background-color: var(--dark-bg);
+                  border: 1px solid var(--border-color);
+                  border-radius: 5px;
+                  color: var(--text-light);
+                  margin-bottom: 0.5rem;
+                "
+              />
+              <button type="submit" class="btn btn-primary" style="width: 100%">
+                Subscribe
+              </button>
+            </form>
+          </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="blog-posts">
+          <!-- Loading State -->
+          <div class="posts-loading" id="postsLoading">
+            <p>Sedang memuat artikel...</p>
+          </div>
+
+          <!-- Blog Grid -->
+          <div class="blog-grid" id="blogGrid"></div>
+
+          <!-- Empty State -->
+          <div class="posts-empty" id="postsEmpty" style="display: none">
+            <i class="fas fa-search"></i>
+            <p>Artikel tidak ditemukan</p>
+            <a href="#" class="btn btn-secondary" onclick="clearFilter(event)">
+              Lihat Semua Artikel
+            </a>
+          </div>
+
+          <!-- Pagination -->
+          <div class="blog-pagination" id="blogPagination"></div>
+        </main>
+      </div>
+    </section>
+
+    <!-- ============================================
+       FOOTER
+       ============================================ -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h4>Ar Creative</h4>
+            <p>Idea, Creative, Inovatif</p>
+          </div>
+
+          <div class="footer-section">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="index.html#home">Home</a></li>
+              <li><a href="index.html#about">About</a></li>
+              <li><a href="index.html#portfolio">Portfolio</a></li>
+              <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-section">
+            <h4>Categories</h4>
+            <ul>
+              <li><a href="blog.html">Semua Artikel</a></li>
+              <li><a href="blog.html">Tutorial Design</a></li>
+              <li><a href="blog.html">Tutorial Web Dev</a></li>
+              <li><a href="blog.html">Edukasi Digital</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-section">
+            <h4>Follow Me</h4>
+            <div class="social-links">
+              <a href="https://instagram.com/arcreative_26" target="_blank"
+                ><i class="fab fa-instagram"></i
+              ></a>
+              <a href="https://facebook.com/arcreative" target="_blank"
+                ><i class="fab fa-facebook"></i
+              ></a>
+              <a href="https://youtube.com/arcreative25" target="_blank"
+                ><i class="fab fa-youtube"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>
+            &copy; 2024 Ar Creative - Idea, Creative, Inovatif. All rights
+            reserved.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="js/script.js?v=2024"></script>
+    <script src="js/blog.js?v=2024"></script>
+  </body>
+</html>
