@@ -285,72 +285,87 @@ if (contactForm) {
 }
 
 // ============ SKILLS CHART ============
-const skillsChartCanvas = document.getElementById("skillsChart");
+document.addEventListener("DOMContentLoaded", function () {
+  const skillsChartCanvas = document.getElementById("skillsChart");
 
-if (skillsChartCanvas) {
-  const ctx = skillsChartCanvas.getContext("2d");
+  if (skillsChartCanvas) {
+    // Pastikan canvas punya ukuran yang jelas
+    skillsChartCanvas.style.width = "100%";
+    skillsChartCanvas.style.height = "400px";
+    skillsChartCanvas.width = skillsChartCanvas.offsetWidth;
+    skillsChartCanvas.height = skillsChartCanvas.offsetHeight;
 
-  const skillsChart = new Chart(ctx, {
-    type: "doughnut",
-    data: {
-      labels: [
-        "Design Grafis (90%)",
-        "CMS Web Dev (80%)",
-        "Content Management (78%)",
-        "IT Support (85%)",
-      ],
-      datasets: [
-        {
-          data: [90, 80, 78, 85],
-          backgroundColor: ["#569ae3", "#004e89", "#7cb5e8", "#06a77d"],
-          borderColor: "#0f1419",
-          borderWidth: 3,
-          hoverOffset: 10,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: "bottom",
-          labels: {
-            color: "#e0e0e0",
-            font: {
+    const ctx = skillsChartCanvas.getContext("2d");
+
+    // Hapus chart lama jika ada
+    if (window.mySkillsChart) {
+      window.mySkillsChart.destroy();
+    }
+
+    // Buat chart baru
+    window.mySkillsChart = new Chart(ctx, {
+      type: "doughnut",
+      data: {
+        labels: [
+          "Design Grafis (90%)",
+          "CMS Web Dev (80%)",
+          "Content Management (78%)",
+          "IT Support (85%)",
+        ],
+        datasets: [
+          {
+            data: [90, 80, 78, 85],
+            backgroundColor: ["#569ae3", "#004e89", "#7cb5e8", "#06a77d"],
+            borderColor: "#1a1f2e",
+            borderWidth: 3,
+            hoverOffset: 10,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        cutout: "60%",
+        plugins: {
+          legend: {
+            position: "bottom",
+            labels: {
+              color: "#e0e0e0",
+              font: {
+                size: 12,
+                weight: "500",
+                family: "'Poppins', sans-serif",
+              },
+              padding: 15,
+              usePointStyle: true,
+              boxWidth: 10,
+            },
+          },
+          tooltip: {
+            backgroundColor: "#1a1f2e",
+            titleColor: "#569ae3",
+            bodyColor: "#e0e0e0",
+            borderColor: "#569ae3",
+            borderWidth: 1,
+            titleFont: {
               size: 13,
               weight: "600",
-              family: "'Poppins', sans-serif",
             },
-            padding: 20,
-            usePointStyle: true,
-          },
-        },
-        tooltip: {
-          backgroundColor: "rgba(15, 20, 25, 0.9)",
-          titleColor: "#569ae3",
-          bodyColor: "#e0e0e0",
-          borderColor: "#569ae3",
-          borderWidth: 1,
-          titleFont: {
-            size: 14,
-            weight: "600",
-          },
-          bodyFont: {
-            size: 13,
-          },
-          padding: 10,
-          displayColors: true,
-          callbacks: {
-            label: function (context) {
-              return context.label + ": " + context.parsed + "%";
+            bodyFont: {
+              size: 12,
+            },
+            padding: 10,
+            callbacks: {
+              label: function (context) {
+                return context.label + ": " + context.parsed + "%";
+              },
             },
           },
         },
       },
-    },
-  });
-}
+    });
+  }
+});
 
 // ============ SCROLL ANIMATIONS ============
 const observerOptions = {
