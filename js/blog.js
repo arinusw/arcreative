@@ -1,903 +1,454 @@
-/* =============================================
-   BLOG PAGE JAVASCRIPT
-   ============================================= */
-// ============ HANDLE MOBILE RESIZE ============
-function handleMobileResize() {
-  const vh = window.innerHeight * 0.01;
-  document.documentElement.style.setProperty("--vh", `${vh}px`);
+// Blog Data Storage
+const BLOG_STORAGE_KEY = 'arcreative_blog_posts';
+const CATEGORIES_STORAGE_KEY = 'arcreative_categories';
 
-  // Fix untuk elemen yang mungkin overflow
-  const containers = document.querySelectorAll(".container");
-  containers.forEach((container) => {
-    if (container.scrollWidth > window.innerWidth) {
-      container.style.overflow = "hidden";
-    }
-  });
-}
-
-window.addEventListener("resize", handleMobileResize);
-window.addEventListener("orientationchange", handleMobileResize);
-handleMobileResize();
-
-// ============ FIX TOUCH SCROLL ============
-document.addEventListener(
-  "touchmove",
-  function (e) {
-    if (e.target.closest(".modal-content")) {
-      e.stopPropagation();
-    }
-  },
-  { passive: false },
-);
-// ============ BLOG ARTICLES DATA ============
-const blogArticles = [
-  // TUTORIAL DESIGN
-  {
-    id: 1,
-    title: "Panduan Lengkap Memulai Desain Grafis untuk Pemula",
-    excerpt:
-      "Belajar dasar-dasar desain grafis dari nol. Panduan ini mencakup teori warna, tipografi, komposisi, dan tools yang perlu Anda kuasai.",
-    category: "tutorial-design",
-    image: '<i class="fas fa-palette"></i>',
-    date: "2026-02-05",
-    readTime: "8 min",
-    tags: ["Design", "Beginner", "Tutorial"],
-  },
-  {
-    id: 2,
-    title: "Logo Design: Tips & Trik Membuat Logo yang Memorable",
-    excerpt:
-      "Pelajari cara membuat logo yang efektif, memorable, dan timeless. Dari sketsa awal hingga finalisasi dengan software profesional.",
-    category: "tutorial-design",
-    image: '<i class="fas fa-pen-nib"></i>',
-    date: "2026-02-04",
-    readTime: "10 min",
-    tags: ["Logo", "Branding", "Design"],
-  },
-  {
-    id: 3,
-    title: "Psikologi Warna dalam Desain Grafis",
-    excerpt:
-      "Pahami bagaimana warna mempengaruhi emosi dan keputusan viewer. Panduan lengkap untuk memilih palet warna yang tepat untuk brand Anda.",
-    category: "tutorial-design",
-    image: '<i class="fas fa-eye-dropper"></i>',
-    date: "2026-02-03",
-    readTime: "7 min",
-    tags: ["Color Theory", "Design", "Psychology"],
-  },
-  {
-    id: 4,
-    title: "Tipografi dalam Desain: Font Selection & Pairing",
-    excerpt:
-      "Pelajari cara memilih dan menggabungkan font yang tepat untuk desain Anda. Tips praktis untuk hierarchy dan readability yang optimal.",
-    category: "tutorial-design",
-    image: '<i class="fas fa-font"></i>',
-    date: "2026-02-02",
-    readTime: "6 min",
-    tags: ["Typography", "Fonts", "Design"],
-  },
-  {
-    id: 5,
-    title: "Desain Banner & Social Media yang Menarik",
-    excerpt:
-      "Tutorial lengkap membuat banner dan konten visual untuk media sosial. Ukuran, format, dan tips desain untuk engagement maksimal.",
-    category: "tutorial-design",
-    image: '<i class="fas fa-image"></i>',
-    date: "2026-02-01",
-    readTime: "9 min",
-    tags: ["Social Media", "Banner", "Marketing"],
-  },
-  {
-    id: 6,
-    title: "Adobe Photoshop untuk Beginner: Fitur-Fitur Dasar",
-    excerpt:
-      "Panduan memaksimalkan Photoshop dari level beginner. Pelajari tools essential, layer management, dan teknik editing dasar.",
-    category: "tutorial-design",
-    image: '<i class="fas fa-image"></i>',
-    date: "2026-01-31",
-    readTime: "12 min",
-    tags: ["Photoshop", "Software", "Design"],
-  },
-  {
-    id: 7,
-    title: "Edit Foto Profesional: Teknik & Tips dari Expert",
-    excerpt:
-      "Teknik editing foto level profesional dengan Lightroom & Photoshop. Dari color grading hingga retouching untuk hasil sempurna.",
-    category: "tutorial-design",
-    image: '<i class="fas fa-camera"></i>',
-    date: "2026-01-30",
-    readTime: "11 min",
-    tags: ["Photo Editing", "Lightroom", "Professional"],
-  },
-  {
-    id: 8,
-    title: "Canva: Tool Design Mudah untuk Non-Designer",
-    excerpt:
-      "Manfaatkan Canva untuk membuat desain profesional tanpa pengalaman design. Template, tips, dan trik untuk hasil maksimal.",
-    category: "tutorial-design",
-    image: '<i class="fas fa-paint-brush"></i>',
-    date: "2026-01-29",
-    readTime: "5 min",
-    tags: ["Canva", "Tool", "Easy Design"],
-  },
-  {
-    id: 9,
-    title: "UI/UX Design Fundamental untuk Website & App",
-    excerpt:
-      "Pelajari prinsip UI/UX design yang good. User research, wireframing, prototyping, dan testing untuk interface yang user-friendly.",
-    category: "tutorial-design",
-    image: '<i class="fas fa-mobile-alt"></i>',
-    date: "2026-01-28",
-    readTime: "13 min",
-    tags: ["UI/UX", "Design", "Web"],
-  },
-  {
-    id: 10,
-    title: "Figma: Design Tool Modern untuk Kolaborasi Tim",
-    excerpt:
-      "Master Figma untuk design modern. Fitur collaboration, component system, dan plugin yang mempercepat workflow design Anda.",
-    category: "tutorial-design",
-    image: '<i class="fas fa-figma"></i>',
-    date: "2026-01-27",
-    readTime: "10 min",
-    tags: ["Figma", "Design Tool", "Collaboration"],
-  },
-  {
-    id: 11,
-    title: "Mockup & Presentation: Showcase Desain Seperti Pro",
-    excerpt:
-      "Cara membuat mockup profesional untuk portfolio & client presentation. Tools dan teknik untuk hasil yang impressive.",
-    category: "tutorial-design",
-    image: '<i class="fas fa-presentation"></i>',
-    date: "2026-01-26",
-    readTime: "8 min",
-    tags: ["Mockup", "Presentation", "Portfolio"],
-  },
-
-  // TUTORIAL WEB DEVELOPMENT
-  {
-    id: 12,
-    title: "6 Tips Membuat Website yang SEO Friendly dan Cepat",
-    excerpt:
-      "Optimasi website untuk ranking tinggi di Google. Teknik SEO on-page, off-page, dan technical SEO yang proven meningkatkan traffic.",
-    category: "tutorial-web",
-    image: '<i class="fas fa-search"></i>',
-    date: "2026-02-03",
-    readTime: "10 min",
-    tags: ["SEO", "Web Development", "Performance"],
-  },
-  {
-    id: 13,
-    title: "HTML & CSS: Fondasi Web Development yang Solid",
-    excerpt:
-      "Pelajari HTML5 dan CSS3 dari dasar. Semantic HTML, modern CSS techniques, dan best practices untuk clean code.",
-    category: "tutorial-web",
-    image: '<i class="fas fa-code"></i>',
-    date: "2026-02-02",
-    readTime: "12 min",
-    tags: ["HTML", "CSS", "Web Development"],
-  },
-  {
-    id: 14,
-    title: "JavaScript untuk Pemula: Interaksi & DOM Manipulation",
-    excerpt:
-      "Master JavaScript dasar untuk membuat website interaktif. Event listening, DOM manipulation, dan async programming yang mudah dipahami.",
-    category: "tutorial-web",
-    image: '<i class="fas fa-js-square"></i>',
-    date: "2026-02-01",
-    readTime: "14 min",
-    tags: ["JavaScript", "Frontend", "Programming"],
-  },
-  {
-    id: 15,
-    title: "Responsive Design: Buat Website yang Mobile-Friendly",
-    excerpt:
-      "Teknik responsive design untuk website yang sempurna di semua device. Media queries, flexbox, & grid layout yang powerful.",
-    category: "tutorial-web",
-    image: '<i class="fas fa-mobile-alt"></i>',
-    date: "2026-01-31",
-    readTime: "9 min",
-    tags: ["Responsive Design", "Mobile", "CSS"],
-  },
-  {
-    id: 16,
-    title: "Frameworks JavaScript: React, Vue, Angular Comparison",
-    excerpt:
-      "Perbandingan framework JavaScript populer. Pilih yang tepat untuk project Anda dengan pros, cons, dan use case dari masing-masing.",
-    category: "tutorial-web",
-    image: '<i class="fas fa-react"></i>',
-    date: "2026-01-30",
-    readTime: "11 min",
-    tags: ["React", "Framework", "JavaScript"],
-  },
-  {
-    id: 17,
-    title: "Backend Development: Node.js & Express Dasar",
-    excerpt:
-      "Belajar backend programming dengan Node.js. Setup server, routing, middleware, dan database connection dengan Express.js.",
-    category: "tutorial-web",
-    image: '<i class="fas fa-server"></i>',
-    date: "2026-01-29",
-    readTime: "13 min",
-    tags: ["Node.js", "Backend", "Express"],
-  },
-  {
-    id: 18,
-    title: "Database: MySQL, MongoDB, dan PostgreSQL untuk Pemula",
-    excerpt:
-      "Pengenalan database relational & non-relational. Query dasar, design schema, dan tips optimization untuk performa database.",
-    category: "tutorial-web",
-    image: '<i class="fas fa-database"></i>',
-    date: "2026-01-28",
-    readTime: "12 min",
-    tags: ["Database", "SQL", "MongoDB"],
-  },
-  {
-    id: 19,
-    title: "Git & GitHub: Version Control untuk Developer",
-    excerpt:
-      "Master Git untuk collaboration yang smooth. Branching, merging, resolving conflicts, dan best practices dalam team development.",
-    category: "tutorial-web",
-    image: '<i class="fas fa-git"></i>',
-    date: "2026-01-27",
-    readTime: "8 min",
-    tags: ["Git", "GitHub", "Version Control"],
-  },
-  {
-    id: 20,
-    title: "API Development: REST API & GraphQL Basics",
-    excerpt:
-      "Buat API yang scalable dan maintainable. REST principles, status codes, authentication, dan intro ke GraphQL.",
-    category: "tutorial-web",
-    image: '<i class="fas fa-network-wired"></i>',
-    date: "2026-01-26",
-    readTime: "11 min",
-    tags: ["API", "REST", "GraphQL"],
-  },
-  {
-    id: 21,
-    title: "Hosting & Deployment: Deploy Website ke Production",
-    excerpt:
-      "Panduan lengkap hosting & deployment. Pilih hosting provider, domain setup, SSL certificate, dan continuous deployment.",
-    category: "tutorial-web",
-    image: '<i class="fas fa-cloud-upload-alt"></i>',
-    date: "2026-01-25",
-    readTime: "10 min",
-    tags: ["Hosting", "Deployment", "Cloud"],
-  },
-
-  // TUTORIAL MICROSOFT
-  {
-    id: 22,
-    title: "Microsoft Office Mastery: Word, Excel, PowerPoint",
-    excerpt:
-      "Kuasai Microsoft Office suite. Tips & trik untuk produktivitas maksimal di Word, Excel, dan PowerPoint.",
-    category: "tutorial-ms",
-    image: '<i class="fas fa-file-word"></i>',
-    date: "2026-02-02",
-    readTime: "9 min",
-    tags: ["Microsoft Office", "Productivity", "Tutorial"],
-  },
-  {
-    id: 23,
-    title: "Excel Advanced: Formula, Pivot Table & Chart",
-    excerpt:
-      "Tutorial Excel lanjutan untuk analisis data profesional. Formula kompleks, pivot table, dan data visualization yang impressive.",
-    category: "tutorial-ms",
-    image: '<i class="fas fa-file-excel"></i>',
-    date: "2026-02-01",
-    readTime: "11 min",
-    tags: ["Excel", "Data Analysis", "Advanced"],
-  },
-  {
-    id: 24,
-    title: "PowerPoint: Presentasi Profesional yang Memikat",
-    excerpt:
-      "Cara membuat presentasi yang engaging dan persuasif. Design tips, animation, dan storytelling untuk presentasi sukses.",
-    category: "tutorial-ms",
-    image: '<i class="fas fa-presentation"></i>',
-    date: "2026-01-31",
-    readTime: "8 min",
-    tags: ["PowerPoint", "Presentation", "Design"],
-  },
-  {
-    id: 25,
-    title: "OneNote & Teams: Kolaborasi & Produktivitas",
-    excerpt:
-      "Manfaatkan OneNote dan Teams untuk kolaborasi tim yang efektif. Organization, sharing, dan communication tools.",
-    category: "tutorial-ms",
-    image: '<i class="fas fa-users"></i>',
-    date: "2026-01-30",
-    readTime: "7 min",
-    tags: ["Teams", "OneNote", "Collaboration"],
-  },
-  {
-    id: 26,
-    title: "Outlook: Email Management & Calendar Organization",
-    excerpt:
-      "Optimalkan Outlook untuk email & scheduling yang efisien. Rules, templates, dan calendar management untuk produktivitas.",
-    category: "tutorial-ms",
-    image: '<i class="fas fa-envelope"></i>',
-    date: "2026-01-29",
-    readTime: "6 min",
-    tags: ["Outlook", "Email", "Organization"],
-  },
-  {
-    id: 27,
-    title: "Windows 10/11: Tips Mengoptimalkan & Troubleshoot",
-    excerpt:
-      "Maksimalkan performa Windows. Setup optimal, maintenance, security tips, dan solusi problem umum.",
-    category: "tutorial-ms",
-    image: '<i class="fas fa-windows"></i>',
-    date: "2026-01-28",
-    readTime: "10 min",
-    tags: ["Windows", "System", "Optimization"],
-  },
-  {
-    id: 28,
-    title: "Azure Cloud: Intro untuk Developer & IT Pro",
-    excerpt:
-      "Pengenalan Microsoft Azure cloud platform. Virtual machines, databases, dan deployment untuk scalable solutions.",
-    category: "tutorial-ms",
-    image: '<i class="fas fa-cloud"></i>',
-    date: "2026-01-27",
-    readTime: "12 min",
-    tags: ["Azure", "Cloud", "Microsoft"],
-  },
-  {
-    id: 29,
-    title: "Access Database: Create & Manage Database Profesional",
-    excerpt:
-      "Buat database yang robust dengan Microsoft Access. Tables, queries, forms, dan reports untuk data management.",
-    category: "tutorial-ms",
-    image: '<i class="fas fa-database"></i>',
-    date: "2026-01-26",
-    readTime: "9 min",
-    tags: ["Access", "Database", "Microsoft"],
-  },
-
-  // EDUKASI DIGITALISASI
-  {
-    id: 30,
-    title: "Transformasi Digital: Panduan untuk Bisnis Modern",
-    excerpt:
-      "Memahami digital transformation dan implementasinya. Strategy, tools, dan best practices untuk bisnis di era digital.",
-    category: "edukasi",
-    image: '<i class="fas fa-digital-tachograph"></i>',
-    date: "2026-02-01",
-    readTime: "9 min",
-    tags: ["Digital Transformation", "Business", "Strategy"],
-  },
-  {
-    id: 31,
-    title: "Content Marketing: Strategy Membuat Konten yang Valuable",
-    excerpt:
-      "Pelajari cara membuat konten yang engaging dan mendorong konversi. Planning, creation, distribution, dan analysis.",
-    category: "edukasi",
-    image: '<i class="fas fa-pen"></i>',
-    date: "2026-01-31",
-    readTime: "10 min",
-    tags: ["Content Marketing", "Strategy", "Digital"],
-  },
-  {
-    id: 32,
-    title: "Social Media Marketing: Strategi Media Sosial Efektif",
-    excerpt:
-      "Master social media untuk business growth. Platform strategy, content planning, engagement tactics, dan analytics.",
-    category: "edukasi",
-    image: '<i class="fas fa-share-alt"></i>',
-    date: "2026-01-30",
-    readTime: "11 min",
-    tags: ["Social Media", "Marketing", "Digital"],
-  },
-  {
-    id: 33,
-    title: "Email Marketing: Automation dan Campaign yang Sukses",
-    excerpt:
-      "Strategi email marketing yang menghasilkan ROI tinggi. Segmentation, automation, copywriting, dan A/B testing.",
-    category: "edukasi",
-    image: '<i class="fas fa-envelope-open"></i>',
-    date: "2026-01-29",
-    readTime: "8 min",
-    tags: ["Email Marketing", "Automation", "Digital"],
-  },
-  {
-    id: 34,
-    title: "E-Commerce: Memulai Bisnis Online Dari Dasar",
-    excerpt:
-      "Panduan lengkap memulai toko online. Platform pilihan, product listing, payment gateway, dan marketing strategies.",
-    category: "edukasi",
-    image: '<i class="fas fa-shopping-cart"></i>',
-    date: "2026-01-28",
-    readTime: "12 min",
-    tags: ["E-Commerce", "Business", "Digital"],
-  },
-  {
-    id: 35,
-    title: "Data Literacy: Membaca & Menganalisa Data untuk Bisnis",
-    excerpt:
-      "Pentingnya data literacy di era digital. Cara membaca data, analytics tools, dan decision making berbasis data.",
-    category: "edukasi",
-    image: '<i class="fas fa-chart-bar"></i>',
-    date: "2026-01-27",
-    readTime: "9 min",
-    tags: ["Data Analysis", "Literacy", "Business"],
-  },
-  {
-    id: 36,
-    title: "Cybersecurity Basics: Proteksi Data di Era Digital",
-    excerpt:
-      "Fundamental cybersecurity untuk protect bisnis Anda. Password management, encryption, threats, dan best practices.",
-    category: "edukasi",
-    image: '<i class="fas fa-shield-alt"></i>',
-    date: "2026-01-26",
-    readTime: "10 min",
-    tags: ["Cybersecurity", "Protection", "Digital"],
-  },
-
-  // TEKNOLOGI TERKINI
-  {
-    id: 37,
-    title: "AI & Machine Learning: Revolusi Teknologi 2026",
-    excerpt:
-      "Update terkini tentang AI & ML. ChatGPT, image generation, automation tools, dan impact terhadap industri.",
-    category: "teknologi",
-    image: '<i class="fas fa-brain"></i>',
-    date: "2026-02-05",
-    readTime: "11 min",
-    tags: ["AI", "Machine Learning", "Tech News"],
-  },
-  {
-    id: 38,
-    title: "Web3 & Cryptocurrency: Masa Depan Internet",
-    excerpt:
-      "Mengerti Web3, blockchain, NFT, dan cryptocurrency. Peluang dan risk di era decentralization.",
-    category: "teknologi",
-    image: '<i class="fas fa-cube"></i>',
-    date: "2026-02-04",
-    readTime: "10 min",
-    tags: ["Web3", "Blockchain", "Cryptocurrency"],
-  },
-  {
-    id: 39,
-    title: "Cloud Computing: Trend & Praktik Terbaik 2026",
-    excerpt:
-      "Perkembangan cloud computing terkini. Multi-cloud strategy, edge computing, dan serverless architecture.",
-    category: "teknologi",
-    image: '<i class="fas fa-cloud"></i>',
-    date: "2026-02-03",
-    readTime: "9 min",
-    tags: ["Cloud", "Technology", "Trend"],
-  },
-  {
-    id: 40,
-    title: "5G & IoT: Konektivitas Masa Depan",
-    excerpt:
-      "Inovasi 5G dan Internet of Things. Aplikasi praktis, peluang bisnis, dan dampak terhadap society.",
-    category: "teknologi",
-    image: '<i class="fas fa-wifi"></i>',
-    date: "2026-02-02",
-    readTime: "8 min",
-    tags: ["5G", "IoT", "Technology"],
-  },
-  {
-    id: 41,
-    title: "DevOps & CI/CD: Workflow Development Modern",
-    excerpt:
-      "Praktik DevOps untuk development yang efficient. CI/CD pipeline, container, kubernetes, & automation tools.",
-    category: "teknologi",
-    image: '<i class="fas fa-cogs"></i>',
-    date: "2026-02-01",
-    readTime: "10 min",
-    tags: ["DevOps", "CI/CD", "Technology"],
-  },
-  {
-    id: 42,
-    title: "Low-Code & No-Code: Development Tanpa Coding",
-    excerpt:
-      "Trend low-code dan no-code platforms. Rapid development, accessibility, dan impact ke industri software.",
-    category: "teknologi",
-    image: '<i class="fas fa-code"></i>',
-    date: "2026-01-31",
-    readTime: "7 min",
-    tags: ["Low-Code", "No-Code", "Development"],
-  },
-  {
-    id: 43,
-    title: "Quantum Computing: Komputasi Masa Depan",
-    excerpt:
-      "Pengenalan quantum computing. Bagaimana cara kerja, aplikasi potential, dan timeline development.",
-    category: "teknologi",
-    image: '<i class="fas fa-microchip"></i>',
-    date: "2026-01-30",
-    readTime: "9 min",
-    tags: ["Quantum", "Computing", "Future"],
-  },
-  {
-    id: 44,
-    title: "Metaverse: Dunia Virtual & Aplikasinya",
-    excerpt:
-      "Apa itu metaverse dan potensi aplikasinya. VR, AR, virtual worlds, dan peluang bisnis di masa depan.",
-    category: "teknologi",
-    image: '<i class="fas fa-vr-cardboard"></i>',
-    date: "2026-01-29",
-    readTime: "8 min",
-    tags: ["Metaverse", "VR", "Technology"],
-  },
-
-  // TUTORIAL INSTALSI KOMPUTER
-  {
-    id: 45,
-    title: "Membangun PC Gaming: Panduan Hardware Lengkap",
-    excerpt:
-      "Cara memilih dan merakit PC gaming yang powerful. Component selection, budget planning, dan assembly tips.",
-    category: "tutorial-komputer",
-    image: '<i class="fas fa-desktop"></i>',
-    date: "2026-02-02",
-    readTime: "12 min",
-    tags: ["PC Build", "Gaming", "Hardware"],
-  },
-  {
-    id: 46,
-    title: "Install & Setup Windows: Fresh Install hingga Optimization",
-    excerpt:
-      "Tutorial lengkap install Windows dari USB. Driver installation, system optimization, dan security setup.",
-    category: "tutorial-komputer",
-    image: '<i class="fas fa-windows"></i>',
-    date: "2026-02-01",
-    readTime: "10 min",
-    tags: ["Windows", "Installation", "Setup"],
-  },
-  {
-    id: 47,
-    title: "Linux untuk Pemula: Install & Penggunaan Dasar",
-    excerpt:
-      "Pengenalan Linux sistem operasi. Instalasi, basic command line, dan tips untuk pengguna baru.",
-    category: "tutorial-komputer",
-    image: '<i class="fas fa-linux"></i>',
-    date: "2026-01-31",
-    readTime: "9 min",
-    tags: ["Linux", "OS", "Tutorial"],
-  },
-  {
-    id: 48,
-    title: "BIOS & UEFI: Pengertian & Cara Konfigurasi",
-    excerpt:
-      "Memahami BIOS/UEFI settings. Boot order, overclocking, security settings, dan troubleshooting.",
-    category: "tutorial-komputer",
-    image: '<i class="fas fa-cogs"></i>',
-    date: "2026-01-30",
-    readTime: "8 min",
-    tags: ["BIOS", "Hardware", "Setup"],
-  },
-  {
-    id: 49,
-    title: "SSD vs HDD: Instalasi & Migrasi Hard Drive",
-    excerpt:
-      "Perbedaan SSD & HDD. Instalasi, cloning OS, dan tips maximize performa storage Anda.",
-    category: "tutorial-komputer",
-    image: '<i class="fas fa-hdd"></i>',
-    date: "2026-01-29",
-    readTime: "7 min",
-    tags: ["Storage", "Hardware", "Tutorial"],
-  },
-
-  // TUTORIAL TEKNISI KOMPUTER
-  {
-    id: 50,
-    title: "Troubleshooting Komputer: Error Umum & Solusinya",
-    excerpt:
-      "Diagnosis dan solusi masalah komputer umum. Blue screen, slow performance, dan hardware issues.",
-    category: "tutorial-teknis",
-    image: '<i class="fas fa-wrench"></i>',
-    date: "2026-02-01",
-    readTime: "11 min",
-    tags: ["Troubleshooting", "Tech Support", "Repair"],
-  },
-  {
-    id: 51,
-    title: "Maintenance Komputer: Cleaning & Preventive Care",
-    excerpt:
-      "Perawatan rutin komputer untuk longevity. Cleaning, thermal management, dan preventive maintenance.",
-    category: "tutorial-teknis",
-    image: '<i class="fas fa-vacuum"></i>',
-    date: "2026-01-31",
-    readTime: "8 min",
-    tags: ["Maintenance", "Care", "PC"],
-  },
-  {
-    id: 52,
-    title: "Virus & Malware: Proteksi & Removal Komputer",
-    excerpt:
-      "Proteksi komputer dari virus & malware. Antivirus recommendations, cleaning malware, dan prevention tips.",
-    category: "tutorial-teknis",
-    image: '<i class="fas fa-shield-virus"></i>',
-    date: "2026-01-30",
-    readTime: "10 min",
-    tags: ["Security", "Malware", "Protection"],
-  },
-  {
-    id: 53,
-    title: "Network Troubleshooting: WiFi & Internet Issues",
-    excerpt:
-      "Solusi masalah network & internet. WiFi connectivity, speed issues, dan diagnosis tools.",
-    category: "tutorial-teknis",
-    image: '<i class="fas fa-wifi"></i>',
-    date: "2026-01-29",
-    readTime: "9 min",
-    tags: ["Network", "WiFi", "Internet"],
-  },
-  {
-    id: 54,
-    title: "Driver & Update: Management & Troubleshoot",
-    excerpt:
-      "Pengelolaan driver hardware. Update driver, rollback, conflict resolution, dan optimization.",
-    category: "tutorial-teknis",
-    image: '<i class="fas fa-microchip"></i>',
-    date: "2026-01-28",
-    readTime: "7 min",
-    tags: ["Drivers", "Hardware", "Updates"],
-  },
-  {
-    id: 55,
-    title: "Backup & Recovery: Proteksi Data Komputer Anda",
-    excerpt:
-      "Strategi backup data yang effective. Tools, scheduling, cloud backup, dan disaster recovery.",
-    category: "tutorial-teknis",
-    image: '<i class="fas fa-arrow-circle-down"></i>',
-    date: "2026-01-27",
-    readTime: "10 min",
-    tags: ["Backup", "Recovery", "Data Protection"],
-  },
-
-  // MANAGEMENT KONTEN
-  {
-    id: 56,
-    title: "Content Calendar: Planning & Organization Konten",
-    excerpt:
-      "Cara membuat dan manage content calendar yang efektif. Planning, scheduling, dan consistency.",
-    category: "management-konten",
-    image: '<i class="fas fa-calendar-alt"></i>',
-    date: "2026-02-02",
-    readTime: "8 min",
-    tags: ["Content Planning", "Organization", "Management"],
-  },
-  {
-    id: 57,
-    title: "CMS Populer: WordPress, Shopify, Wix Comparison",
-    excerpt:
-      "Perbandingan platform CMS terpopuler. Features, pros-cons, dan rekomendasi untuk kebutuhan Anda.",
-    category: "management-konten",
-    image: '<i class="fas fa-sitemap"></i>',
-    date: "2026-02-01",
-    readTime: "10 min",
-    tags: ["CMS", "WordPress", "Platform"],
-  },
-  {
-    id: 58,
-    title: "WordPress: Instalasi, Setup, & Plugin Essential",
-    excerpt:
-      "Tutorial lengkap WordPress untuk beginner. Installation, theme setup, essential plugin, dan optimization.",
-    category: "management-konten",
-    image: '<i class="fas fa-wordpress"></i>',
-    date: "2026-01-31",
-    readTime: "12 min",
-    tags: ["WordPress", "CMS", "Website"],
-  },
-  {
-    id: 59,
-    title: "SEO Content: Menulis untuk Search Engine & Reader",
-    excerpt:
-      "Cara menulis konten yang SEO optimized namun tetap engaging. Keyword research, on-page SEO, dan readability.",
-    category: "management-konten",
-    image: '<i class="fas fa-pen-fancy"></i>',
-    date: "2026-01-30",
-    readTime: "9 min",
-    tags: ["SEO", "Content Writing", "Copywriting"],
-  },
-  {
-    id: 60,
-    title: "Video Content: Production & Distribution Strategy",
-    excerpt:
-      "Cara membuat video content berkualitas. Production tips, editing, optimization, dan distribution strategy.",
-    category: "management-konten",
-    image: '<i class="fas fa-video"></i>',
-    date: "2026-01-29",
-    readTime: "11 min",
-    tags: ["Video", "Content Production", "Marketing"],
-  },
+// Default Categories with Colors
+const defaultCategories = [
+    { id: 'tutorial-design', name: 'Tutorial Design', color: '#ff6b35' },
+    { id: 'tutorial-web', name: 'Tutorial Web Dev', color: '#6b35ff' },
+    { id: 'tutorial-ms', name: 'Tutorial Microsoft', color: '#35b8ff' },
+    { id: 'edukasi', name: 'Edukasi Digitalisasi', color: '#35ff6b' },
+    { id: 'teknologi', name: 'Update Teknologi', color: '#ffb335' },
+    { id: 'tutorial-komputer', name: 'Tutorial Instalasi Komputer', color: '#ff35b8' },
+    { id: 'tutorial-teknis', name: 'Tutorial Teknisi Komputer', color: '#35ffb8' },
+    { id: 'management-konten', name: 'Management Konten', color: '#ff6b9d' }
 ];
 
-// ============ PAGINATION SETTINGS ============
-const itemsPerPage = 12;
-let currentPage = 1;
-let filteredArticles = blogArticles;
+// Sample Blog Posts
+const samplePosts = [
+    {
+        id: Date.now() - 10000,
+        title: 'Panduan Lengkap Memulai Desain Grafis untuk Pemula',
+        category: 'tutorial-design',
+        excerpt: 'Belajar dasar-dasar desain grafis dari nol. Panduan ini akan membimbing Anda mengenal tools, prinsip desain, dan best practices.',
+        content: 'Desain grafis adalah seni visual yang menggabungkan tipografi, gambar, dan elemen visual lainnya untuk menyampaikan pesan. Dalam panduan ini, kami akan membahas:\n\n1. **Tools Dasar Desain**\n- Adobe Photoshop\n- Adobe Illustrator\n- CorelDraw\n- Figma\n\n2. **Prinsip-Prinsip Desain**\n- Komposisi\n- Warna dan Harmoni\n- Tipografi\n- Whitespace\n\n3. **Membuat Karya Pertama Anda**\n- Logo sederhana\n- Poster\n- Banner\n\n4. **Tips dan Trik**\n- Jangan takut bereksperimen\n- Pelajari dari desainer lain\n- Practice makes perfect\n\n5. **Resource Pembelajaran**\n- Udemy\n- Skillshare\n- YouTube Tutorial\n- Design Websites',
+        image: 'img/placeholder-work.jpg',
+        author: 'Arinus Wantik',
+        date: new Date(Date.now() - 432000000).toISOString(),
+        readTime: 8,
+        tags: ['design', 'pemula', 'tutorial']
+    },
+    {
+        id: Date.now() - 20000,
+        title: '6 Tips Membuat Website yang SEO Friendly dan Cepat',
+        category: 'tutorial-web',
+        excerpt: 'Tingkatkan kualitas website Anda dengan tips SEO dan optimasi kecepatan loading. Pelajari strategi terbaik untuk ranking lebih tinggi.',
+        content: 'Website yang cepat dan SEO-friendly adalah kunci kesuksesan online. Berikut adalah 6 tips penting:\n\n**Tip 1: Optimasi Kecepatan Loading**\n- Kompresi gambar\n- Minify CSS dan JavaScript\n- Gunakan CDN\n- Caching yang tepat\n\n**Tip 2: Mobile Responsive**\n- Design responsive sejak awal\n- Test di berbagai device\n- Perhatikan viewport\n\n**Tip 3: SEO On-Page**\n- Keyword research\n- Meta tags yang tepat\n- Heading structure\n- Internal linking\n\n**Tip 4: Content Quality**\n- Konten original\n- Informatif dan berguna\n- Update secara berkala\n\n**Tip 5: Backlink Strategy**\n- Guest posting\n- Resource pages\n- Broken link building\n\n**Tip 6: Analytics Monitoring**\n- Setup Google Analytics\n- Monitor traffic\n- Adjust strategy',
+        image: 'img/placeholder-web.jpeg',
+        author: 'Arinus Wantik',
+        date: new Date(Date.now() - 345600000).toISOString(),
+        readTime: 10,
+        tags: ['web', 'seo', 'performance']
+    },
+    {
+        id: Date.now() - 30000,
+        title: 'Troubleshooting Komputer: Solusi Error Umum dan Cepat',
+        category: 'tutorial-teknis',
+        excerpt: 'Mengatasi masalah komputer dengan cepat dan efisien. Panduan troubleshooting untuk error-error umum yang sering terjadi.',
+        content: 'Komputer mengalami masalah? Jangan panik! Berikut solusi untuk error-error umum:\n\n**ERROR: Blue Screen of Death (BSOD)**\n- Restart komputer\n- Update driver\n- Scan malware\n- Cek hard drive\n\n**ERROR: Program Not Responding**\n- Tutup program paksa\n- Update software\n- Bersihkan temp files\n\n**ERROR: Internet Connection Error**\n- Restart router\n- Update network driver\n- Cek kabel network\n- Reset network settings\n\n**ERROR: Slow Performance**\n- Hapus program tidak perlu\n- Disable startup programs\n- Upgrade RAM\n- Gunakan SSD\n\n**ERROR: Sistem Restart Tiba-tiba**\n- Cek suhu CPU\n- Update BIOS\n- Cek power supply\n- Scan virus\n\n**Preventive Maintenance**\n- Regular update\n- Antivirus protection\n- Backup penting\n- Disk cleanup',
+        image: 'img/placeholder-work.jpg',
+        author: 'Arinus Wantik',
+        date: new Date(Date.now() - 259200000).toISOString(),
+        readTime: 7,
+        tags: ['komputer', 'troubleshooting', 'tips']
+    }
+];
 
-// ============ DOM ELEMENTS ============
-const blogGrid = document.getElementById("blogGrid");
-const categoryLinks = document.querySelectorAll(".category-link");
-const searchInput = document.getElementById("searchBlog");
-const blogPagination = document.getElementById("blogPagination");
-const postsLoading = document.getElementById("postsLoading");
-const postsEmpty = document.getElementById("postsEmpty");
+// Initialize Blog
+document.addEventListener('DOMContentLoaded', function() {
+    initializeBlogCategories();
+    loadBlogPosts();
+    setupCategoryFilters();
+    setupSearch();
+});
 
-// ============ RENDER BLOG ARTICLES ============
-function renderBlogArticles(page = 1) {
-  if (filteredArticles.length === 0) {
-    blogGrid.innerHTML = "";
-    postsEmpty.style.display = "flex";
-    blogPagination.innerHTML = "";
-    return;
-  }
+// Initialize Categories
+function initializeBlogCategories() {
+    const stored = localStorage.getItem(CATEGORIES_STORAGE_KEY);
+    if (!stored) {
+        localStorage.setItem(CATEGORIES_STORAGE_KEY, JSON.stringify(defaultCategories));
+    }
+}
 
-  postsEmpty.style.display = "none";
+// Get All Categories
+function getBlogCategories() {
+    const stored = localStorage.getItem(CATEGORIES_STORAGE_KEY);
+    return stored ? JSON.parse(stored) : defaultCategories;
+}
 
-  const start = (page - 1) * itemsPerPage;
-  const end = start + itemsPerPage;
-  const paginatedArticles = filteredArticles.slice(start, end);
+// Get Blog Posts
+function getBlogPosts() {
+    let stored = localStorage.getItem(BLOG_STORAGE_KEY);
+    if (!stored) {
+        localStorage.setItem(BLOG_STORAGE_KEY, JSON.stringify(samplePosts));
+        stored = JSON.stringify(samplePosts);
+    }
+    return JSON.parse(stored);
+}
 
-  blogGrid.innerHTML = "";
+// Load Blog Posts
+function loadBlogPosts(category = 'all', searchQuery = '') {
+    let posts = getBlogPosts();
 
-  paginatedArticles.forEach((article) => {
-    const card = document.createElement("div");
-    card.className = "blog-card";
-    card.innerHTML = `
-      <div class="blog-card-image">${article.image}</div>
-      <div class="blog-card-content">
-        <span class="blog-card-category">${article.category.replace(/-/g, " ")}</span>
-        <h3 class="blog-card-title">${article.title}</h3>
-        <p class="blog-card-excerpt">${article.excerpt}</p>
-        <div class="blog-card-meta">
-          <span class="blog-card-date">
-            <i class="fas fa-calendar"></i>
-            ${formatDate(article.date)}
-          </span>
-          <span class="blog-card-read-time">
-            <i class="fas fa-clock"></i>
-            ${article.readTime}
-          </span>
+    // Filter by category
+    if (category !== 'all') {
+        posts = posts.filter(post => post.category === category);
+    }
+
+    // Filter by search
+    if (searchQuery.trim()) {
+        const query = searchQuery.toLowerCase();
+        posts = posts.filter(post => 
+            post.title.toLowerCase().includes(query) ||
+            post.excerpt.toLowerCase().includes(query) ||
+            post.content.toLowerCase().includes(query)
+        );
+    }
+
+    // Sort by date (newest first)
+    posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    displayBlogPosts(posts, category, searchQuery);
+}
+
+// Display Blog Posts
+function displayBlogPosts(posts, category, searchQuery) {
+    const blogGrid = document.getElementById('blogGrid');
+    const postsLoading = document.getElementById('postsLoading');
+    const postsEmpty = document.getElementById('postsEmpty');
+
+    postsLoading.style.display = 'none';
+
+    if (posts.length === 0) {
+        blogGrid.innerHTML = '';
+        postsEmpty.style.display = 'block';
+        document.getElementById('blogPagination').innerHTML = '';
+        return;
+    }
+
+    postsEmpty.style.display = 'none';
+
+    const categories = getBlogCategories();
+    blogGrid.innerHTML = posts.map(post => {
+        const cat = categories.find(c => c.id === post.category);
+        const catName = cat ? cat.name : 'Uncategorized';
+        const catColor = cat ? cat.color : '#ff6b35';
+        const postDate = new Date(post.date).toLocaleDateString('id-ID', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+
+        return `
+            <article class="blog-card">
+                <div class="blog-image">
+                    <img src="${post.image}" alt="${post.title}" onerror="this.src='img/placeholder-work.jpg'">
+                    <div class="blog-overlay">
+                        <span class="category-badge" style="background: ${catColor}">${catName}</span>
+                    </div>
+                </div>
+                <div class="blog-content">
+                    <h3 class="blog-title">${post.title}</h3>
+                    <p class="blog-excerpt">${post.excerpt}</p>
+                    <div class="blog-meta">
+                        <span class="meta-item">
+                            <i class="fas fa-calendar"></i> ${postDate}
+                        </span>
+                        <span class="meta-item">
+                            <i class="fas fa-clock"></i> ${post.readTime} min
+                        </span>
+                    </div>
+                    <button class="btn btn-secondary" onclick="openBlogModal(${post.id})">
+                        Lihat Selengkapnya <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </article>
+        `;
+    }).join('');
+}
+
+// Open Blog Modal
+function openBlogModal(postId) {
+    const posts = getBlogPosts();
+    const post = posts.find(p => p.id === postId);
+    if (!post) return;
+
+    const categories = getBlogCategories();
+    const category = categories.find(c => c.id === post.category);
+    const catColor = category ? category.color : '#ff6b35';
+    const catName = category ? category.name : 'Uncategorized';
+    const postDate = new Date(post.date).toLocaleDateString('id-ID', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+
+    const content = post.content.split('\n').map(para => {
+        if (para.trim()) {
+            return `<p>${para.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/- /g, '• ')}</p>`;
+        }
+        return '';
+    }).join('');
+
+    const modal = document.createElement('div');
+    modal.className = 'blog-modal active';
+    modal.id = 'blogModal';
+    modal.innerHTML = `
+        <div class="modal-overlay" onclick="closeBlogModal()"></div>
+        <div class="modal-dialog">
+            <button class="modal-close" onclick="closeBlogModal()">&times;</button>
+            <div class="modal-header">
+                <img src="${post.image}" alt="${post.title}" class="modal-image" onerror="this.src='img/placeholder-work.jpg'">
+            </div>
+            <div class="modal-body">
+                <div class="modal-category" style="background: ${catColor}">${catName}</div>
+                <h2 class="modal-title">${post.title}</h2>
+                <div class="modal-meta">
+                    <span><i class="fas fa-user"></i> ${post.author}</span>
+                    <span><i class="fas fa-calendar"></i> ${postDate}</span>
+                    <span><i class="fas fa-clock"></i> ${post.readTime} min baca</span>
+                </div>
+                <div class="modal-content">
+                    ${content}
+                </div>
+                <div class="modal-tags">
+                    ${post.tags.map(tag => `<span class="tag">#${tag}</span>`).join('')}
+                </div>
+            </div>
         </div>
-        <a href="#" class="blog-card-link">
-          Baca Selengkapnya <i class="fas fa-arrow-right"></i>
-        </a>
-      </div>
     `;
-    blogGrid.appendChild(card);
-  });
 
-  // Render pagination
-  renderPagination(filteredArticles.length);
+    document.body.appendChild(modal);
+    document.body.style.overflow = 'hidden';
 }
 
-// ============ RENDER PAGINATION ============
-function renderPagination(totalItems) {
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
-  blogPagination.innerHTML = "";
-
-  if (totalPages <= 1) return;
-
-  // Previous button
-  if (currentPage > 1) {
-    const prevBtn = document.createElement("button");
-    prevBtn.className = "pagination-btn";
-    prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
-    prevBtn.addEventListener("click", () => {
-      currentPage--;
-      renderBlogArticles(currentPage);
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-    blogPagination.appendChild(prevBtn);
-  }
-
-  // Page numbers
-  for (let i = 1; i <= totalPages; i++) {
-    const btn = document.createElement("button");
-    btn.className = `pagination-btn ${i === currentPage ? "active" : ""}`;
-    btn.textContent = i;
-    btn.addEventListener("click", () => {
-      currentPage = i;
-      renderBlogArticles(currentPage);
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-    blogPagination.appendChild(btn);
-  }
-
-  // Next button
-  if (currentPage < totalPages) {
-    const nextBtn = document.createElement("button");
-    nextBtn.className = "pagination-btn";
-    nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
-    nextBtn.addEventListener("click", () => {
-      currentPage++;
-      renderBlogArticles(currentPage);
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-    blogPagination.appendChild(nextBtn);
-  }
-}
-
-// ============ FILTER BY CATEGORY ============
-categoryLinks.forEach((link) => {
-  link.addEventListener("click", function (e) {
-    e.preventDefault();
-
-    categoryLinks.forEach((l) => l.classList.remove("active"));
-    this.classList.add("active");
-
-    const category = this.getAttribute("data-category");
-
-    if (category === "all") {
-      filteredArticles = blogArticles;
-    } else {
-      filteredArticles = blogArticles.filter((a) => a.category === category);
+// Close Blog Modal
+function closeBlogModal() {
+    const modal = document.getElementById('blogModal');
+    if (modal) {
+        modal.remove();
+        document.body.style.overflow = 'auto';
     }
-
-    currentPage = 1;
-    renderBlogArticles();
-  });
-});
-
-// ============ SEARCH FUNCTIONALITY ============
-searchInput.addEventListener("keyup", function (e) {
-  const searchTerm = e.target.value.toLowerCase();
-
-  if (searchTerm === "") {
-    filteredArticles = blogArticles;
-  } else {
-    filteredArticles = blogArticles.filter(
-      (a) =>
-        a.title.toLowerCase().includes(searchTerm) ||
-        a.excerpt.toLowerCase().includes(searchTerm) ||
-        a.tags.some((tag) => tag.toLowerCase().includes(searchTerm)),
-    );
-  }
-
-  currentPage = 1;
-  renderBlogArticles();
-});
-
-// ============ HELPER FUNCTIONS ============
-function formatDate(dateString) {
-  const options = { year: "numeric", month: "long", day: "numeric" };
-  return new Date(dateString).toLocaleDateString("id-ID", options);
 }
 
+// Setup Category Filters
+function setupCategoryFilters() {
+    const categoryLinks = document.querySelectorAll('.category-link');
+    categoryLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelectorAll('.category-link').forEach(l => l.classList.remove('active'));
+            this.classList.add('active');
+            const category = this.dataset.category;
+            loadBlogPosts(category);
+        });
+    });
+}
+
+// Setup Search
+function setupSearch() {
+    const searchInput = document.getElementById('searchBlog');
+    const searchBtn = document.querySelector('.search-btn');
+    if (searchInput) {
+        searchInput.addEventListener('keyup', function() {
+            loadBlogPosts('all', this.value);
+        });
+        if (searchBtn) {
+            searchBtn.addEventListener('click', function() {
+                loadBlogPosts('all', searchInput.value);
+            });
+        }
+    }
+}
+
+// Clear Filter
 function clearFilter(e) {
-  e.preventDefault();
-  categoryLinks.forEach((l) => l.classList.remove("active"));
-  categoryLinks[0].classList.add("active");
-  filteredArticles = blogArticles;
-  currentPage = 1;
-  renderBlogArticles();
-}
-
-// ============ INIT ============
-document.addEventListener("DOMContentLoaded", function () {
-  // Check for URL parameter untuk category
-  const urlParams = new URLSearchParams(window.location.search);
-  const categoryParam = urlParams.get("category");
-
-  if (categoryParam) {
-    // Find dan click category link based on URL param
-    const categoryLink = document.querySelector(
-      `.category-link[data-category="${categoryParam}"]`,
-    );
-    if (categoryLink) {
-      categoryLink.click();
-    }
-  }
-
-  renderBlogArticles();
-});
-
-// ============ NEWSLETTER FORM ============
-const newsletterForm = document.getElementById("newsletterForm");
-if (newsletterForm) {
-  newsletterForm.addEventListener("submit", function (e) {
     e.preventDefault();
-    alert("Terima kasih! Email Anda telah terdaftar untuk newsletter kami.");
-    this.reset();
-  });
+    document.querySelectorAll('.category-link').forEach(l => l.classList.remove('active'));
+    document.querySelector('[data-category="all"]').classList.add('active');
+    loadBlogPosts('all');
 }
 
-console.log("Blog JavaScript loaded successfully!");
+// Add CSS for Blog Modal
+const blogModalStyle = document.createElement('style');
+blogModalStyle.textContent = `
+    .blog-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 2000;
+        animation: modalFade 0.3s ease;
+    }
+
+    .blog-modal.active {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    @keyframes modalFade {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    .modal-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+    }
+
+    .modal-dialog {
+        position: relative;
+        background: #141923;
+        border-radius: 10px;
+        max-width: 700px;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+        from { transform: translateY(50px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+        border: none;
+        background: rgba(255, 107, 53, 0.2);
+        color: #ff6b35;
+        font-size: 28px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s;
+        z-index: 10;
+    }
+
+    .modal-close:hover {
+        background: rgba(255, 107, 53, 0.4);
+        transform: rotate(90deg);
+    }
+
+    .modal-header {
+        position: relative;
+        height: 300px;
+        overflow: hidden;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .modal-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .modal-body {
+        padding: 30px;
+    }
+
+    .modal-category {
+        display: inline-block;
+        padding: 8px 15px;
+        border-radius: 20px;
+        color: white;
+        font-weight: 600;
+        font-size: 12px;
+        margin-bottom: 15px;
+    }
+
+    .modal-title {
+        font-size: 28px;
+        color: #fff;
+        margin-bottom: 15px;
+        line-height: 1.3;
+    }
+
+    .modal-meta {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 25px;
+        color: #999;
+        font-size: 14px;
+        flex-wrap: wrap;
+    }
+
+    .modal-meta span {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .modal-meta i {
+        color: #ff6b35;
+    }
+
+    .modal-content {
+        color: #ddd;
+        line-height: 1.8;
+        margin-bottom: 25px;
+        font-size: 15px;
+    }
+
+    .modal-content p {
+        margin-bottom: 15px;
+    }
+
+    .modal-content strong {
+        color: #ff6b35;
+    }
+
+    .modal-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .tag {
+        display: inline-block;
+        padding: 6px 12px;
+        background: rgba(255, 107, 53, 0.1);
+        color: #ff6b35;
+        border-radius: 15px;
+        font-size: 12px;
+        border: 1px solid rgba(255, 107, 53, 0.3);
+    }
+
+    @media (max-width: 768px) {
+        .modal-dialog {
+            max-width: 95vw;
+            max-height: 95vh;
+            border-radius: 10px;
+        }
+
+        .modal-header {
+            height: 200px;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-title {
+            font-size: 20px;
+        }
+
+        .modal-meta {
+            gap: 10px;
+        }
+    }
+`;
+document.head.appendChild(blogModalStyle);
