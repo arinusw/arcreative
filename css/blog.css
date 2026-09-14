@@ -1,20 +1,56 @@
-/* Blog Styles */
+/* =========================================================
+   AR CREATIVE — BLOG STYLES
+   Diselaraskan dengan tampilan utama Ar Creative
+   ========================================================= */
+
 :root {
-    --primary-color: #ff6b35;
-    --dark-bg: #0f1419;
-    --darker-bg: #0a0d12;
-    --card-bg: #141923;
-    --text-light: #fff;
-    --text-lighter: #ccc;
-    --text-muted: #999;
-    --border-color: rgba(255, 107, 53, 0.2);
-    --border-color-light: rgba(255, 255, 255, 0.1);
+    /* Brand Colors */
+    --primary-color: #f47a20;
+    --primary-hover: #ff8c32;
+    --primary-light: rgba(244, 122, 32, 0.12);
+    --primary-medium: rgba(244, 122, 32, 0.20);
+    --primary-strong: rgba(244, 122, 32, 0.35);
+
+    /* Background */
+    --dark-bg: #0f0f10;
+    --darker-bg: #0a0a0b;
+    --card-bg: #171719;
+    --card-bg-hover: #1d1d20;
+
+    /* Text */
+    --text-light: #ffffff;
+    --text-lighter: #e5e5e7;
+    --text-muted: #a1a1a6;
+    --text-subtle: #77777d;
+
+    /* Border */
+    --border-color: rgba(244, 122, 32, 0.18);
+    --border-color-light: rgba(255, 255, 255, 0.08);
+    --border-color-hover: rgba(244, 122, 32, 0.65);
+
+    /* Effects */
+    --shadow-primary: 0 10px 30px rgba(244, 122, 32, 0.12);
+    --transition: all 0.3s ease;
 }
 
-/* Blog Hero Section */
+/* =========================================================
+   BLOG HERO SECTION
+   ========================================================= */
+
 .blog-hero {
-    background: linear-gradient(135deg, var(--darker-bg) 0%, var(--card-bg) 100%);
-    border-bottom: 1px solid var(--border-color);
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(244, 122, 32, 0.06),
+            transparent 55%
+        ),
+        linear-gradient(
+            135deg,
+            var(--darker-bg) 0%,
+            var(--dark-bg) 100%
+        );
+
+    border-bottom: 1px solid var(--border-color-light);
     padding: 80px 0 60px;
 }
 
@@ -43,20 +79,29 @@
     margin-right: auto;
 }
 
-/* Search Bar */
+/* =========================================================
+   SEARCH BAR
+   ========================================================= */
+
 .blog-search {
     display: flex;
     max-width: 500px;
     margin: 0 auto;
-    background: rgba(255, 107, 53, 0.1);
+    background: var(--primary-light);
     border: 1px solid var(--border-color);
     border-radius: 50px;
     padding: 5px;
+    transition: var(--transition);
+}
+
+.blog-search:focus-within {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(244, 122, 32, 0.08);
 }
 
 .search-input {
     flex: 1;
-    background: none;
+    background: transparent;
     border: none;
     color: var(--text-light);
     padding: 12px 20px;
@@ -65,7 +110,7 @@
 }
 
 .search-input::placeholder {
-    color: var(--text-muted);
+    color: var(--text-subtle);
 }
 
 .search-input:focus {
@@ -73,22 +118,26 @@
 }
 
 .search-btn {
-    background: linear-gradient(135deg, var(--primary-color) 0%, #ff8555 100%);
+    background: var(--primary-color);
     border: none;
-    color: white;
+    color: #ffffff;
     padding: 12px 25px;
     border-radius: 50px;
     cursor: pointer;
     font-size: 16px;
-    transition: all 0.3s;
+    transition: var(--transition);
 }
 
 .search-btn:hover {
+    background: var(--primary-hover);
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
+    box-shadow: 0 5px 15px rgba(244, 122, 32, 0.25);
 }
 
-/* Blog Container */
+/* =========================================================
+   BLOG CONTAINER
+   ========================================================= */
+
 .blog-section {
     padding: 60px 0;
     background: var(--dark-bg);
@@ -100,7 +149,10 @@
     gap: 30px;
 }
 
-/* Sidebar */
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
 .blog-sidebar {
     display: flex;
     flex-direction: column;
@@ -109,9 +161,14 @@
 
 .sidebar-widget {
     background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
+    border: 1px solid var(--border-color-light);
+    border-radius: 12px;
     padding: 20px;
+    transition: var(--transition);
+}
+
+.sidebar-widget:hover {
+    border-color: var(--border-color);
 }
 
 .sidebar-title {
@@ -127,7 +184,10 @@
     color: var(--primary-color);
 }
 
-/* Category List */
+/* =========================================================
+   CATEGORY LIST
+   ========================================================= */
+
 .category-list {
     list-style: none;
 }
@@ -139,34 +199,37 @@
     padding: 12px;
     color: var(--text-muted);
     text-decoration: none;
-    border-radius: 5px;
-    transition: all 0.3s;
+    border-radius: 6px;
+    transition: var(--transition);
     border-left: 3px solid transparent;
 }
 
 .category-link:hover {
-    background: rgba(255, 107, 53, 0.1);
-    color: var(--primary-color);
+    background: var(--primary-light);
+    color: var(--primary-hover);
     border-left-color: var(--primary-color);
 }
 
 .category-link.active {
-    background: rgba(255, 107, 53, 0.2);
-    color: var(--primary-color);
+    background: var(--primary-medium);
+    color: var(--primary-hover);
     border-left-color: var(--primary-color);
     font-weight: 600;
 }
 
 .category-count {
-    background: rgba(255, 107, 53, 0.3);
-    color: var(--primary-color);
+    background: var(--primary-medium);
+    color: var(--primary-hover);
     padding: 2px 8px;
     border-radius: 12px;
     font-size: 12px;
     font-weight: 600;
 }
 
-/* Popular Articles */
+/* =========================================================
+   POPULAR ARTICLES
+   ========================================================= */
+
 .popular-articles {
     display: flex;
     flex-direction: column;
@@ -174,7 +237,7 @@
 }
 
 .popular-item {
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color-light);
     padding-bottom: 15px;
 }
 
@@ -187,19 +250,19 @@
 }
 
 .popular-item a {
-    color: var(--text-light);
+    color: var(--text-lighter);
     text-decoration: none;
     font-size: 14px;
     font-weight: 600;
-    transition: all 0.3s;
+    transition: var(--transition);
 }
 
 .popular-item a:hover {
-    color: var(--primary-color);
+    color: var(--primary-hover);
 }
 
 .popular-date {
-    color: var(--text-muted);
+    color: var(--text-subtle);
     font-size: 12px;
 }
 
@@ -208,14 +271,20 @@
     margin-right: 5px;
 }
 
-/* Newsletter Form */
+/* =========================================================
+   NEWSLETTER FORM
+   ========================================================= */
+
 .newsletter-form {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-/* Blog Posts Grid */
+/* =========================================================
+   BLOG POSTS GRID
+   ========================================================= */
+
 .blog-posts {
     flex: 1;
 }
@@ -229,36 +298,37 @@
 
 .blog-card {
     background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
+    border: 1px solid var(--border-color-light);
+    border-radius: 12px;
     overflow: hidden;
-    transition: all 0.3s;
+    transition: var(--transition);
     display: flex;
     flex-direction: column;
 }
 
 .blog-card:hover {
-    transform: translateY(-8px);
-    border-color: var(--primary-color);
-    box-shadow: 0 10px 30px rgba(255, 107, 53, 0.2);
+    transform: translateY(-6px);
+    background: var(--card-bg-hover);
+    border-color: var(--border-color-hover);
+    box-shadow: var(--shadow-primary);
 }
 
 .blog-image {
     position: relative;
     height: 200px;
     overflow: hidden;
-    background: rgba(255, 107, 53, 0.1);
+    background: var(--primary-light);
 }
 
 .blog-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.3s;
+    transition: transform 0.3s ease;
 }
 
 .blog-card:hover .blog-image img {
-    transform: scale(1.08);
+    transform: scale(1.06);
 }
 
 .blog-overlay {
@@ -267,13 +337,13 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.58);
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
     padding: 15px;
     opacity: 0;
-    transition: opacity 0.3s;
+    transition: opacity 0.3s ease;
 }
 
 .blog-card:hover .blog-overlay {
@@ -284,11 +354,15 @@
     display: inline-block;
     padding: 6px 12px;
     background: var(--primary-color);
-    color: white;
+    color: #ffffff;
     border-radius: 20px;
     font-size: 12px;
     font-weight: 600;
 }
+
+/* =========================================================
+   BLOG CONTENT
+   ========================================================= */
 
 .blog-content {
     padding: 20px;
@@ -319,7 +393,7 @@
     gap: 15px;
     margin-bottom: 15px;
     font-size: 12px;
-    color: var(--text-muted);
+    color: var(--text-subtle);
     flex-wrap: wrap;
 }
 
@@ -333,14 +407,18 @@
     color: var(--primary-color);
 }
 
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
 .btn {
     padding: 10px 20px;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     font-family: 'Poppins', sans-serif;
     font-size: 13px;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: var(--transition);
     text-decoration: none;
     display: inline-flex;
     align-items: center;
@@ -350,17 +428,22 @@
 }
 
 .btn-secondary {
-    background: rgba(255, 107, 53, 0.1);
-    color: var(--primary-color);
+    background: var(--primary-light);
+    color: var(--primary-hover);
     border: 1px solid var(--primary-color);
     width: 100%;
 }
 
 .btn-secondary:hover {
-    background: rgba(255, 107, 53, 0.2);
+    background: var(--primary-medium);
+    border-color: var(--primary-hover);
+    color: #ffffff;
 }
 
-/* Loading & Empty States */
+/* =========================================================
+   LOADING & EMPTY STATES
+   ========================================================= */
+
 .posts-loading,
 .posts-empty {
     text-align: center;
@@ -370,7 +453,7 @@
 
 .posts-empty i {
     font-size: 48px;
-    color: rgba(255, 107, 53, 0.3);
+    color: var(--primary-strong);
     margin-bottom: 15px;
     display: block;
 }
@@ -380,34 +463,43 @@
     margin-bottom: 20px;
 }
 
-/* Pagination */
+/* =========================================================
+   PAGINATION
+   ========================================================= */
+
 .blog-pagination {
     display: flex;
     justify-content: center;
     gap: 10px;
     margin-top: 40px;
+    flex-wrap: wrap;
 }
 
 .pagination-btn {
     padding: 10px 15px;
-    background: rgba(255, 107, 53, 0.1);
-    color: var(--primary-color);
-    border: 1px solid var(--primary-color);
-    border-radius: 5px;
+    background: var(--primary-light);
+    color: var(--primary-hover);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: var(--transition);
 }
 
 .pagination-btn:hover {
-    background: rgba(255, 107, 53, 0.2);
+    background: var(--primary-medium);
+    border-color: var(--primary-color);
 }
 
 .pagination-btn.active {
     background: var(--primary-color);
-    color: white;
+    color: #ffffff;
+    border-color: var(--primary-color);
 }
 
-/* Responsive */
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
 @media (max-width: 1024px) {
     .blog-container {
         grid-template-columns: 1fr;
@@ -425,6 +517,10 @@
 }
 
 @media (max-width: 768px) {
+    .blog-hero {
+        padding: 60px 0 45px;
+    }
+
     .blog-hero-title {
         font-size: 32px;
     }
