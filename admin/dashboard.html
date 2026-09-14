@@ -15,10 +15,16 @@
         </div>
         <nav class="sidebar-menu">
             <a href="#" class="menu-item active" data-section="posts">
-                <i class="fas fa-list"></i> Manage Posts
+                <i class="fas fa-list"></i> Portfolio Posts
             </a>
-            <a href="#" class="menu-item" data-section="add-post">
-                <i class="fas fa-plus"></i> Add New Post
+            <a href="#" class="menu-item" data-section="blog">
+                <i class="fas fa-newspaper"></i> Blog Posts
+            </a>
+            <a href="#" class="menu-item" data-section="add-blog">
+                <i class="fas fa-plus"></i> Add Blog Post
+            </a>
+            <a href="#" class="menu-item" data-section="categories">
+                <i class="fas fa-layer-group"></i> Categories
             </a>
             <a href="#" class="menu-item" data-section="settings">
                 <i class="fas fa-cog"></i> Settings
@@ -47,10 +53,10 @@
         <!-- Content Sections -->
         <div class="dashboard-content">
 
-            <!-- Posts List Section -->
+            <!-- Portfolio Posts Section -->
             <section id="posts-section" class="content-section active">
                 <div class="section-header">
-                    <h2>Manage Posts</h2>
+                    <h2>Manage Portfolio Posts</h2>
                     <a href="#" class="btn btn-primary" data-section="add-post" onclick="switchSection(event, 'add-post')">
                         <i class="fas fa-plus"></i> Add New Post
                     </a>
@@ -80,7 +86,7 @@
             <!-- Add/Edit Post Section -->
             <section id="add-post-section" class="content-section">
                 <div class="section-header">
-                    <h2 id="formTitle">Add New Post</h2>
+                    <h2 id="formTitle">Add New Portfolio Post</h2>
                 </div>
 
                 <form id="postForm" class="post-form">
@@ -125,6 +131,108 @@
                 </form>
             </section>
 
+            <!-- Blog Posts Section -->
+            <section id="blog-section" class="content-section">
+                <div class="section-header">
+                    <h2>Manage Blog Posts</h2>
+                    <a href="#" class="btn btn-primary" data-section="add-blog" onclick="switchSection(event, 'add-blog')">
+                        <i class="fas fa-plus"></i> Add New Blog Post
+                    </a>
+                </div>
+
+                <div class="posts-list-container">
+                    <table class="posts-table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Date</th>
+                                <th>Read Time</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="blogTableBody">
+                            <!-- Will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                    <div id="emptyBlogMessage" class="empty-message">
+                        <p>No blog posts yet. <a href="#" onclick="switchSection(event, 'add-blog')">Create your first blog post</a></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Add/Edit Blog Post Section -->
+            <section id="add-blog-section" class="content-section">
+                <div class="section-header">
+                    <h2 id="blogFormTitle">Add New Blog Post</h2>
+                </div>
+
+                <form id="blogForm" class="post-form">
+                    <div class="form-group">
+                        <label for="blogTitle">Title *</label>
+                        <input type="text" id="blogTitle" required placeholder="Enter blog post title">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="blogCategory">Category *</label>
+                        <select id="blogCategory" required>
+                            <option value="">Select category</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="blogExcerpt">Excerpt *</label>
+                        <textarea id="blogExcerpt" rows="2" required placeholder="Short summary of the post"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="blogContent">Full Content *</label>
+                        <textarea id="blogContent" rows="10" required placeholder="Enter full blog content (supports markdown-like formatting with ** for bold)"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="blogImage">Image URL *</label>
+                        <input type="url" id="blogImage" required placeholder="Enter image URL">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="blogAuthor">Author</label>
+                        <input type="text" id="blogAuthor" placeholder="e.g., Arinus Wantik" value="Arinus Wantik">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="blogReadTime">Read Time (minutes) *</label>
+                        <input type="number" id="blogReadTime" required min="1" placeholder="e.g., 8">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="blogTags">Tags (comma separated)</label>
+                        <input type="text" id="blogTags" placeholder="e.g., design, tutorial, tips">
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" id="blogSubmitBtn">Create Blog Post</button>
+                        <button type="button" class="btn btn-secondary" onclick="switchSection(event, 'blog')">Cancel</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Categories Management Section -->
+            <section id="categories-section" class="content-section">
+                <div class="section-header">
+                    <h2>Manage Categories</h2>
+                    <button class="btn btn-primary" onclick="openAddCategoryModal()">
+                        <i class="fas fa-plus"></i> Add New Category
+                    </button>
+                </div>
+
+                <div class="categories-container">
+                    <div id="categoriesGrid" class="categories-grid">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+
             <!-- Settings Section -->
             <section id="settings-section" class="content-section">
                 <div class="section-header">
@@ -140,8 +248,8 @@
 
                     <div class="settings-card">
                         <h3>Export Data</h3>
-                        <p>Download all posts as JSON file</p>
-                        <button class="btn btn-primary" onclick="exportData()">Export Posts</button>
+                        <p>Download all posts and categories as JSON file</p>
+                        <button class="btn btn-primary" onclick="exportData()">Export Data</button>
                     </div>
 
                     <div class="settings-card">
@@ -164,6 +272,32 @@
                 <button class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
                 <button class="btn btn-secondary" onclick="closeDeleteModal()">Cancel</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Modal for Add/Edit Category -->
+    <div id="categoryModal" class="modal">
+        <div class="modal-content">
+            <h3 id="categoryModalTitle">Add New Category</h3>
+            <form id="categoryForm" onsubmit="saveCategoryForm(event)">
+                <div class="form-group">
+                    <label for="categoryName">Category Name *</label>
+                    <input type="text" id="categoryName" required placeholder="e.g., Tutorial Design">
+                </div>
+
+                <div class="form-group">
+                    <label for="categoryColor">Color *</label>
+                    <div class="color-picker-group">
+                        <input type="color" id="categoryColor" required value="#ff6b35">
+                        <input type="text" id="categoryColorHex" readonly placeholder="#ff6b35">
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="submit" class="btn btn-primary">Save Category</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeCategoryModal()">Cancel</button>
+                </div>
+            </form>
         </div>
     </div>
 
